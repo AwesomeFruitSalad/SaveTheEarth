@@ -16,11 +16,9 @@ import org.fruitsalad.R;
  */
 public class AchievementFragment extends Fragment {
 
-
     public AchievementFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -23,7 +23,7 @@ public class AchievementsAndLeaderBoardFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_achievements, container, false);
+        View root = inflater.inflate(R.layout.fragment_achievements_leaderboard, container, false);
 
         Toolbar toolbar = root.findViewById(R.id.toolbar);
         toolbar.setTitle("");
