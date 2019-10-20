@@ -14,8 +14,11 @@ public interface DaoAccess {
     @Insert
     void insertSaviourOfEarth(SaviourOfEarth saviourOfEarth);
 
-    @Query("SELECT name from SaviourOfEarth WHERE name = :name")
-    List<String> getSaviourOfEarth(String name);
+    @Insert
+    void insertSavioursOfEarth(List<SaviourOfEarth> savioursOfEarth);
+
+    @Query("SELECT * from SaviourOfEarth WHERE name = :name")
+    SaviourOfEarth getSaviourOfEarthByName(String name);
 
     @Query("SELECT * from SaviourOfEarth")
     List<SaviourOfEarth> getAllSavioursOfEarth();
@@ -24,8 +27,11 @@ public interface DaoAccess {
     List<String> getAllAchievements();
 
     @Query("SELECT score from SaviourOfEarth where name = :name")
-    int getCurrentSaviourOfEarthScore(String name);
+    int getScoreByName(String name);
 
     @Query("SELECT score from SaviourOfEarth")
     List<Integer> getAllScores();
+
+    @Query("UPDATE SaviourOfEarth SET score = :score WHERE name = :name")
+    int updateSaviourOfEarth(String name, int score);
 }

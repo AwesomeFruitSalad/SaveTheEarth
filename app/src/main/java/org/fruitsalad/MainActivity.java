@@ -1,5 +1,6 @@
 package org.fruitsalad;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -9,8 +10,14 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.room.Room;
+
+import org.fruitsalad.roomdb.UserDatabase;
+import org.fruitsalad.utility.MockData;
 
 public class MainActivity extends AppCompatActivity {
+
+    private UserDatabase userDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +32,25 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+        userDatabase = Room.databaseBuilder(this, UserDatabase.class, "SaviourOfEarth")
+                .build();
+
+        initializeDatabaseWithValues();
+    }
+
+    private void initializeDatabaseWithValues() {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+
+                if (userDatabase.daoAccess().getAllAchievements() == null ||
+                        userDatabase.daoAccess().getAllAchievements().isEmpty()) {
+                    userDatabase.daoAccess().insertSavioursOfEarth(MockData.getSavioursOfEarth());
+                }
+                return null;
+            }
+        }.execute();
     }
 
 }
