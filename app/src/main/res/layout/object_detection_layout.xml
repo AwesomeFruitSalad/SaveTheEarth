@@ -10,34 +10,58 @@
         android:id="@+id/snapBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="13dp"
+        android:layout_alignParentBottom="true"
         android:layout_marginStart="57dp"
-        android:text="Take Picture" />
+        android:layout_marginBottom="39dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="Take Picture"
+        android:textColor="#FFFFFF" />
 
     <Button
         android:id="@+id/detectBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:textColor="#FFFFFF"
+        android:background="@color/colorPrimary"
         android:layout_alignTop="@+id/snapBtn"
         android:layout_marginEnd="43dp"
         android:text="Detect" />
 
     <ImageView
         android:id="@+id/imageView"
+        android:src="@drawable/ic_camera_alt_black_24dp"
         android:layout_width="match_parent"
         android:layout_height="360dp"
+        android:padding="60dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         app:srcCompat="@android:color/background_light" />
 
-    <TextView
+    <EditText
         android:id="@+id/txtView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="104dp" />
+        android:background="@drawable/button_bg"
+        android:hint="Expresses how do you feel"
+        android:padding="10dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_above="@+id/snapBtn"
+        android:layout_below="@+id/imageView"
+        android:layout_marginTop="76dp"
+        android:layout_marginBottom="190dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_marginTop="500dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:paddingTop="15dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginBottom="190dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thank you for planting a tree, Have a nice day" />
 </RelativeLayout>
