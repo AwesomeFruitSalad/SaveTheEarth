@@ -88,17 +88,38 @@ public class MockData {
         return randomAchievements;
     }
 
+    public static SaviourOfEarth getSaviourOfEarth() {
+        return new SaviourOfEarth("Abhijit",
+                getRandomAchievements(getAllAchievements()),
+                0);
+    }
+
     public static List<SaviourOfEarth> getSavioursOfEarth() {
         List<SaviourOfEarth> savioursOfEarth = new ArrayList<>();
         savioursOfEarth.add(new SaviourOfEarth("Abhijit",
                 getRandomAchievements(getAllAchievements()),
-                0));
+                100));
         savioursOfEarth.add(new SaviourOfEarth("Abhilash",
                 getRandomAchievements(getAllAchievements()),
-                0));
+                32));
         savioursOfEarth.add(new SaviourOfEarth("Prabhakar",
                 getRandomAchievements(getAllAchievements()),
-                0));
+                4545));
+        savioursOfEarth.add(new SaviourOfEarth("Harshit",
+                getRandomAchievements(getAllAchievements()),
+                5423));
+        savioursOfEarth.add(new SaviourOfEarth("Ashwin",
+                getRandomAchievements(getAllAchievements()),
+                56095));
+        savioursOfEarth.add(new SaviourOfEarth("Drishya",
+                getRandomAchievements(getAllAchievements()),
+                5463));
+        savioursOfEarth.add(new SaviourOfEarth("Swathi",
+                getRandomAchievements(getAllAchievements()),
+                69845));
+        savioursOfEarth.add(new SaviourOfEarth("Puneeth",
+                getRandomAchievements(getAllAchievements()),
+                332));
 
         return savioursOfEarth;
     }

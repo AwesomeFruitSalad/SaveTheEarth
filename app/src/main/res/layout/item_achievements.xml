@@ -15,6 +15,6 @@
         android:layout_weight="1"
         android:padding="8dp"
         tools:text="Achievement"
-        android:textSize="24sp" />
+        android:textSize="16sp" />
 
 </androidx.cardview.widget.CardView>
