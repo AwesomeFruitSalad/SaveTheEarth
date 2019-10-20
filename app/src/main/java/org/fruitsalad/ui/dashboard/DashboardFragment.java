@@ -3,17 +3,26 @@ package org.fruitsalad.ui.dashboard;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
@@ -41,6 +50,11 @@ import com.google.android.gms.fitness.request.DataSourcesRequest;
 import com.google.android.gms.fitness.request.OnDataPointListener;
 import com.google.android.gms.fitness.request.SensorRequest;
 import com.google.android.gms.fitness.result.DataSourcesResult;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -59,6 +73,8 @@ public class DashboardFragment extends Fragment
     private boolean authInProgress = false;
     private GoogleApiClient mApiClient;
     View root;
+    ImageButton button_share;
+    File imagePath;
 
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,6 +85,8 @@ public class DashboardFragment extends Fragment
         }
 
         textView = root.findViewById(R.id.stepCount);
+        button_share = root.findViewById(R.id.fab_share);
+
 
         mApiClient =
                 new GoogleApiClient.Builder(getContext())
@@ -79,6 +97,29 @@ public class DashboardFragment extends Fragment
                         .build();
 
         setTimerTask();
+
+
+        button_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    // Do the file write
+
+                    Bitmap bitmap = takeScreenshot();
+                    saveBitmap(bitmap);
+                    shareIt();
+                } else {
+                    // Request permission from the user
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+
+                    Bitmap bitmap = takeScreenshot();
+                    saveBitmap(bitmap);
+                    shareIt();
+
+                }
+            }
+        });
         return root;
     }
 
@@ -290,5 +331,39 @@ public class DashboardFragment extends Fragment
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(AUTH_PENDING, authInProgress);
+    }
+
+
+    public Bitmap takeScreenshot() {
+        View rootView = root;
+        rootView.setDrawingCacheEnabled(true);
+        return rootView.getDrawingCache();
+    }
+
+    private void saveBitmap(Bitmap bitmap) {
+        imagePath = new File(Environment.getExternalStorageDirectory() + "/scrnshot.png"); ////File imagePath
+        FileOutputStream fos;
+        try {
+            fos = new FileOutputStream(imagePath);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            Log.e("GREC", e.getMessage(), e);
+        } catch (IOException e) {
+            Log.e("GREC", e.getMessage(), e);
+        }
+    }
+
+    private void shareIt() {
+        Uri uri = FileProvider.getUriForFile(getContext(), "org.fruitsalad.fileprovider", imagePath);
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("image/*");
+        String shareBody = "My steps in this week is 52802 with bar graph, Install and explore yourself";
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My Catch score");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+        startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }
 }
