@@ -5,9 +5,8 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.provider.MediaStore;
 import android.os.Bundle;
-import android.text.TextWatcher;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,22 +16,18 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.ml.vision.FirebaseVision;
-import com.google.firebase.ml.vision.cloud.FirebaseVisionCloudDetectorOptions;
 import com.google.firebase.ml.vision.cloud.landmark.FirebaseVisionCloudLandmark;
+import com.google.firebase.ml.vision.cloud.landmark.FirebaseVisionCloudLandmarkDetector;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
-import com.google.firebase.ml.vision.label.FirebaseVisionCloudImageLabelerOptions;
-import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
-import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
-import com.google.firebase.ml.vision.label.FirebaseVisionOnDeviceImageLabelerOptions;
 import com.google.firebase.ml.vision.objects.FirebaseVisionObject;
 import com.google.firebase.ml.vision.objects.FirebaseVisionObjectDetector;
 import com.google.firebase.ml.vision.objects.FirebaseVisionObjectDetectorOptions;
-import com.google.firebase.ml.vision.text.FirebaseVisionText;
-import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 
 import org.fruitsalad.R;
 
@@ -52,7 +47,6 @@ public class ObjectDetection extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.object_detection_layout);
         FirebaseApp.initializeApp(this);
-
 
 
         snapBtn = findViewById(R.id.snapBtn);
@@ -90,6 +84,7 @@ public class ObjectDetection extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             imageBitmap = (Bitmap) extras.get("data");
@@ -97,7 +92,30 @@ public class ObjectDetection extends AppCompatActivity {
         }
     }
 
+
     public void detectImage() {
+        FirebaseVisionCloudLandmarkDetector detector =
+                FirebaseVision.getInstance().getVisionCloudLandmarkDetector();
+
+        detector.detectInImage(FirebaseVisionImage.fromBitmap(imageBitmap))
+                .addOnCompleteListener(new OnCompleteListener<List<FirebaseVisionCloudLandmark>>() {
+                    @Override
+                    public void onComplete(@NonNull Task<List<FirebaseVisionCloudLandmark>> task) {
+                        String output = "";
+                        for (FirebaseVisionCloudLandmark label : task.getResult()) {
+                            if (label.getConfidence() > 0.7) {
+                                output += "" + label.getLandmark();
+                            }
+                        }
+                        Toast.makeText(getApplicationContext(), "This is " + output, Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    /**
+     * !!!WARNING!!! :DON'T USE THIS METHOD
+     */
+    public void detectImageShittyVersion() {
         FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(imageBitmap);
         FirebaseVisionObjectDetectorOptions options =
                 new FirebaseVisionObjectDetectorOptions.Builder()
@@ -110,17 +128,16 @@ public class ObjectDetection extends AppCompatActivity {
         objectDetector.processImage(image).addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionObject>>() {
             @Override
             public void onSuccess(List<FirebaseVisionObject> firebaseVisionObjects) {
-                Toast.makeText(getApplicationContext(),"this is"+firebaseVisionObjects,Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "this is" + firebaseVisionObjects, Toast.LENGTH_LONG).show();
 
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
 
             }
         });
-
 
 
     }
