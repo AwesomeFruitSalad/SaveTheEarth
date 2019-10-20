@@ -26,6 +26,7 @@ public class HomeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+
         FloatingActionButton fab = root.findViewById(R.id.fab_pooja);
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -35,7 +36,6 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
         return root;
     }
     @Override
