@@ -149,7 +149,7 @@ public class HomeFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),ObjectDetection.class);
+                Intent intent = new Intent(getActivity(), ObjectDetection.class);
                 startActivityForResult(intent, INCREMENT_SCORE);
             }
         });
@@ -187,7 +187,7 @@ public class HomeFragment extends Fragment {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 textScore.setText(Integer.toString(score));
-                updateplantCount();
+
 
                 // TODO : Initialize other views like HEATMAP, PROFILE PICTURE
             }
@@ -200,6 +200,7 @@ public class HomeFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         CircularImageView circularImageView = getActivity().findViewById(R.id.circularImageView);
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.vector_abhijit_1);
+        updateplantCount();
         circularImageView.setImageBitmap(largeIcon);
     }
 
@@ -216,13 +217,13 @@ public class HomeFragment extends Fragment {
             increaseScoreTask();
         }
     }
-    public void updateplantCount(){
+
+    public void updateplantCount() {
         LevelProgressBar levelProgressBar = getActivity().findViewById(R.id.p1);
-        levelProgressBar.setProgressWithAnimation(5F);
-        if (score<=10){
+        levelProgressBar.setProgressWithAnimation(0F);
+        if (score <= 10) {
             levelProgressBar.setProgressWithAnimation(score);
-        }
-        else {
+        } else {
             levelProgressBar.setProgressWithAnimation(score);
         }
     }
