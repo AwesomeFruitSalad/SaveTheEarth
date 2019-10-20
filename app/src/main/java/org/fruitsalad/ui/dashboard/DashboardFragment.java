@@ -50,7 +50,6 @@ import com.google.android.gms.fitness.request.DataSourcesRequest;
 import com.google.android.gms.fitness.request.OnDataPointListener;
 import com.google.android.gms.fitness.request.SensorRequest;
 import com.google.android.gms.fitness.result.DataSourcesResult;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -87,7 +86,6 @@ public class DashboardFragment extends Fragment
         textView = root.findViewById(R.id.stepCount);
         button_share = root.findViewById(R.id.fab_share);
 
-
         mApiClient =
                 new GoogleApiClient.Builder(getContext())
                         .addApi(Fitness.SENSORS_API)
@@ -98,28 +96,29 @@ public class DashboardFragment extends Fragment
 
         setTimerTask();
 
+        button_share.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (ContextCompat.checkSelfPermission(
+                                        getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                == PackageManager.PERMISSION_GRANTED) {
+                            // Do the file write
 
-        button_share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    // Do the file write
+                            Bitmap bitmap = takeScreenshot();
+                            saveBitmap(bitmap);
+                            shareIt();
+                        } else {
+                            // Request permission from the user
+                            ActivityCompat.requestPermissions(
+                                    getActivity(), new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
 
-                    Bitmap bitmap = takeScreenshot();
-                    saveBitmap(bitmap);
-                    shareIt();
-                } else {
-                    // Request permission from the user
-                    ActivityCompat.requestPermissions(getActivity(),
-                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-
-                    Bitmap bitmap = takeScreenshot();
-                    saveBitmap(bitmap);
-                    shareIt();
-
-                }
-            }
-        });
+                            Bitmap bitmap = takeScreenshot();
+                            saveBitmap(bitmap);
+                            shareIt();
+                        }
+                    }
+                });
         return root;
     }
 
@@ -333,7 +332,6 @@ public class DashboardFragment extends Fragment
         outState.putBoolean(AUTH_PENDING, authInProgress);
     }
 
-
     public Bitmap takeScreenshot() {
         View rootView = root;
         rootView.setDrawingCacheEnabled(true);
@@ -341,7 +339,8 @@ public class DashboardFragment extends Fragment
     }
 
     private void saveBitmap(Bitmap bitmap) {
-        imagePath = new File(Environment.getExternalStorageDirectory() + "/scrnshot.png"); ////File imagePath
+        imagePath =
+                new File(Environment.getExternalStorageDirectory() + "/scrnshot.png"); // //File imagePath
         FileOutputStream fos;
         try {
             fos = new FileOutputStream(imagePath);
@@ -359,7 +358,8 @@ public class DashboardFragment extends Fragment
         Uri uri = FileProvider.getUriForFile(getContext(), "org.fruitsalad.fileprovider", imagePath);
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("image/*");
-        String shareBody = "My steps in this week is 52802 with bar graph, Install and explore yourself";
+        String shareBody =
+                "My steps in this week is 52802 with bar graph, Install and explore yourself";
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My Catch score");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
