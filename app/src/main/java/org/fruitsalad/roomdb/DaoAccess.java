@@ -34,4 +34,7 @@ public interface DaoAccess {
 
     @Query("UPDATE SaviourOfEarth SET score = :score WHERE name = :name")
     int updateSaviourOfEarth(String name, int score);
+
+    @Query("SELECT achievements from SaviourOfEarth where name = :name")
+    List<String> getAchievementsByUser(String name);
 }

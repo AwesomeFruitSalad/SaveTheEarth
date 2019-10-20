@@ -1,5 +1,6 @@
 package org.fruitsalad.ui.achievements.adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.fruitsalad.R;
 import org.fruitsalad.model.SaviourOfEarth;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class LeaderBoardRecyclerViewAdapter
         extends RecyclerView.Adapter<LeaderBoardRecyclerViewAdapter.LeaderBoardViewHolder> {
 
     private List<SaviourOfEarth> users;
+
+    public LeaderBoardRecyclerViewAdapter(List<SaviourOfEarth> users) {
+        this.users = users;
+        Collections.sort(users, new Comparator<SaviourOfEarth>() {
+            @Override
+            public int compare(SaviourOfEarth userOne, SaviourOfEarth userTwo) {
+                return userTwo.getScore() - userOne.getScore();
+            }
+        });
+        Log.i("LEADERBOARD", users.toString());
+    }
 
     @NonNull
     @Override

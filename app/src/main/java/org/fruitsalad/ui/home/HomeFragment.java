@@ -60,8 +60,8 @@ public class HomeFragment extends Fragment {
         root = inflater.inflate(R.layout.fragment_home, container, false);
 
         fab = root.findViewById(R.id.fab_increase_score);
-        button_share = root.findViewById(R.id.fab_share);
         textScore = root.findViewById(R.id.textView_score);
+        button_share = root.findViewById(R.id.fab_share);
 
         userDatabase = Room.databaseBuilder(getActivity().getBaseContext(), UserDatabase.class, "SaviourOfEarth")
                 .build();
@@ -149,7 +149,7 @@ public class HomeFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ObjectDetection.class);
+                Intent intent = new Intent(getActivity(),ObjectDetection.class);
                 startActivityForResult(intent, INCREMENT_SCORE);
             }
         });
@@ -187,6 +187,8 @@ public class HomeFragment extends Fragment {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 textScore.setText(Integer.toString(score));
+                updateplantCount();
+
                 // TODO : Initialize other views like HEATMAP, PROFILE PICTURE
             }
         }.execute();
@@ -196,8 +198,6 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
-        LevelProgressBar levelProgressBar = getActivity().findViewById(R.id.p1);
-        levelProgressBar.setProgressWithAnimation(5F);
         CircularImageView circularImageView = getActivity().findViewById(R.id.circularImageView);
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.vector_abhijit_1);
         circularImageView.setImageBitmap(largeIcon);
@@ -216,6 +216,18 @@ public class HomeFragment extends Fragment {
             increaseScoreTask();
         }
     }
+    public void updateplantCount(){
+        LevelProgressBar levelProgressBar = getActivity().findViewById(R.id.p1);
+        levelProgressBar.setProgressWithAnimation(5F);
+        if (score<=10){
+            levelProgressBar.setProgressWithAnimation(score);
+        }
+        else {
+            levelProgressBar.setProgressWithAnimation(score);
+        }
+    }
+
+
 
     public Bitmap takeScreenshot() {
         View rootView = root;
