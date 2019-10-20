@@ -16,14 +16,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.ml.vision.FirebaseVision;
-import com.google.firebase.ml.vision.cloud.landmark.FirebaseVisionCloudLandmark;
-import com.google.firebase.ml.vision.cloud.landmark.FirebaseVisionCloudLandmarkDetector;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.objects.FirebaseVisionObject;
 import com.google.firebase.ml.vision.objects.FirebaseVisionObjectDetector;
@@ -63,7 +59,9 @@ public class ObjectDetection extends AppCompatActivity {
         detectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                detectImage();
+                Intent returnIntent = new Intent();
+                setResult(69, returnIntent);
+                finish();
             }
         });
     }
@@ -94,22 +92,22 @@ public class ObjectDetection extends AppCompatActivity {
 
 
     public void detectImage() {
-        FirebaseVisionCloudLandmarkDetector detector =
-                FirebaseVision.getInstance().getVisionCloudLandmarkDetector();
-
-        detector.detectInImage(FirebaseVisionImage.fromBitmap(imageBitmap))
-                .addOnCompleteListener(new OnCompleteListener<List<FirebaseVisionCloudLandmark>>() {
-                    @Override
-                    public void onComplete(@NonNull Task<List<FirebaseVisionCloudLandmark>> task) {
-                        String output = "";
-                        for (FirebaseVisionCloudLandmark label : task.getResult()) {
-                            if (label.getConfidence() > 0.7) {
-                                output += "" + label.getLandmark();
-                            }
-                        }
-                        Toast.makeText(getApplicationContext(), "This is " + output, Toast.LENGTH_LONG).show();
-                    }
-                });
+//        FirebaseVisionCloudLandmarkDetector detector =
+//                FirebaseVision.getInstance().getVisionCloudLandmarkDetector();
+//
+//        detector.detectInImage(FirebaseVisionImage.fromBitmap(imageBitmap))
+//                .addOnCompleteListener(new OnCompleteListener<List<FirebaseVisionCloudLandmark>>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<List<FirebaseVisionCloudLandmark>> task) {
+//                        String output = "";
+//                        for (FirebaseVisionCloudLandmark label : task.getResult()) {
+//                            if (label.getConfidence() > 0.7) {
+//                                output += "" + label.getLandmark();
+//                            }
+//                        }
+//                        Toast.makeText(getApplicationContext(), "This is " + output, Toast.LENGTH_LONG).show();
+//                    }
+//                });
     }
 
     /**
@@ -120,7 +118,7 @@ public class ObjectDetection extends AppCompatActivity {
         FirebaseVisionObjectDetectorOptions options =
                 new FirebaseVisionObjectDetectorOptions.Builder()
                         .setDetectorMode(FirebaseVisionObjectDetectorOptions.STREAM_MODE)
-                        .enableClassification()  // Optional
+                        .enableClassification()  // Very Optional
                         .build();
         FirebaseVisionObjectDetector objectDetector =
                 FirebaseVision.getInstance().getOnDeviceObjectDetector(options);
