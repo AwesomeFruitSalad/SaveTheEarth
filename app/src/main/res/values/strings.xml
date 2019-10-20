@@ -1,9 +1,8 @@
 <resources>
     <string name="app_name">Save the Earth</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_run_green">Run Green</string>
     <string name="title_achievements">Achievements</string>
     <string name="plants_planted_this_week">Plants Planted this week</string>
     <string name="emoji">hurray &#128522; you crossed 45k it is good for health</string>
-
 </resources>
