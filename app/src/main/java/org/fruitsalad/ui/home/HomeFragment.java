@@ -27,8 +27,6 @@ import org.fruitsalad.R;
 import org.fruitsalad.roomdb.UserDatabase;
 import org.fruitsalad.utility.MockData;
 
-import java.sql.ResultSet;
-
 import ir.alirezaiyan.progressbar.LevelProgressBar;
 
 public class HomeFragment extends Fragment {

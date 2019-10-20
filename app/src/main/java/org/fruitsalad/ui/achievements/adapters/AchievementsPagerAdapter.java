@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import org.fruitsalad.ui.achievements.nestedfragments.AchievementFragment;
 import org.fruitsalad.ui.achievements.nestedfragments.LeaderBoardFragment;
+import org.fruitsalad.utility.MockData;
 
 public class AchievementsPagerAdapter extends FragmentPagerAdapter {
 
@@ -20,9 +21,9 @@ public class AchievementsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch(position) {
             case 0:
-                return new AchievementFragment();
+                return new AchievementFragment(MockData.getSaviourOfEarth());
             case 1:
-                return new LeaderBoardFragment();
+                return new LeaderBoardFragment(MockData.getSavioursOfEarth());
             default:
                 return null;
         }
