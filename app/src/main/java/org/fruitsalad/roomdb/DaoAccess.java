@@ -3,10 +3,8 @@ package org.fruitsalad.roomdb;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
-
-import org.fruitsalad.model.SaviourOfEarth;
-
 import java.util.List;
+import org.fruitsalad.model.SaviourOfEarth;
 
 @Dao
 public interface DaoAccess {

@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -23,7 +22,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.room.Room;
-
 import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
 import com.anychart.charts.HeatMap;
@@ -31,17 +29,14 @@ import com.anychart.enums.SelectionMode;
 import com.anychart.graphics.vector.SolidFill;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mikhaellopez.circularimageview.CircularImageView;
-
-import org.fruitsalad.R;
-import org.fruitsalad.roomdb.UserDatabase;
-import org.fruitsalad.utility.MockData;
-
+import ir.alirezaiyan.progressbar.LevelProgressBar;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import ir.alirezaiyan.progressbar.LevelProgressBar;
+import org.fruitsalad.R;
+import org.fruitsalad.roomdb.UserDatabase;
+import org.fruitsalad.utility.MockData;
 
 public class HomeFragment extends Fragment {
 
@@ -54,8 +49,8 @@ public class HomeFragment extends Fragment {
     ImageButton button_share;
     File imagePath;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(
+            @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         root = inflater.inflate(R.layout.fragment_home, container, false);
 
@@ -63,32 +58,35 @@ public class HomeFragment extends Fragment {
         textScore = root.findViewById(R.id.textView_score);
         button_share = root.findViewById(R.id.fab_share);
 
-        userDatabase = Room.databaseBuilder(getActivity().getBaseContext(), UserDatabase.class, "SaviourOfEarth")
-                .build();
+        userDatabase =
+                Room.databaseBuilder(getActivity().getBaseContext(), UserDatabase.class, "SaviourOfEarth")
+                        .build();
         initializeViewsTask();
         onFABClicked();
 
-        button_share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    // Do the file write
+        button_share.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (ContextCompat.checkSelfPermission(
+                                        getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                == PackageManager.PERMISSION_GRANTED) {
+                            // Do the file write
 
-                    Bitmap bitmap = takeScreenshot();
-                    saveBitmap(bitmap);
-                    shareIt();
-                } else {
-                    // Request permission from the user
-                    ActivityCompat.requestPermissions(getActivity(),
-                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                            Bitmap bitmap = takeScreenshot();
+                            saveBitmap(bitmap);
+                            shareIt();
+                        } else {
+                            // Request permission from the user
+                            ActivityCompat.requestPermissions(
+                                    getActivity(), new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
 
-                    Bitmap bitmap = takeScreenshot();
-                    saveBitmap(bitmap);
-                    shareIt();
-
-                }
-            }
-        });
+                            Bitmap bitmap = takeScreenshot();
+                            saveBitmap(bitmap);
+                            shareIt();
+                        }
+                    }
+                });
         return root;
     }
 
@@ -100,7 +98,8 @@ public class HomeFragment extends Fragment {
         HeatMap riskMap = AnyChart.heatMap();
 
         riskMap.stroke("1 #fff");
-        riskMap.hovered()
+        riskMap
+                .hovered()
                 .stroke("6 #fff")
                 .fill(new SolidFill("#545f69", 1d))
                 .labels("{ fontColor: '#fff' }");
@@ -108,17 +107,17 @@ public class HomeFragment extends Fragment {
         riskMap.interactivity().selectionMode(SelectionMode.NONE);
 
         riskMap.title().enabled(true);
-        riskMap.title()
-                .text("Oxygen Heat Map")
-                .padding(0d, 0d, 20d, 0d);
+        riskMap.title().text("Oxygen Heat Map").padding(0d, 0d, 20d, 0d);
 
         riskMap.labels().enabled(true);
-        riskMap.labels()
+        riskMap
+                .labels()
                 .minFontSize(14d)
-                .format("function() {\n" +
-                        "      var namesList = [\"Low\", \"Medium\", \"High\", \"Extreme\"];\n" +
-                        "      return namesList[this.heat];\n" +
-                        "    }");
+                .format(
+                        "function() {\n"
+                                + "      var namesList = [\"Low\", \"Medium\", \"High\", \"Extreme\"];\n"
+                                + "      return namesList[this.heat];\n"
+                                + "    }");
 
         riskMap.yAxis(0).stroke(null);
         riskMap.yAxis(0).labels().padding(0d, 15d, 0d, 0d);
@@ -127,16 +126,19 @@ public class HomeFragment extends Fragment {
         riskMap.xAxis(0).ticks(false);
 
         riskMap.tooltip().title().useHtml(true);
-        riskMap.tooltip()
+        riskMap
+                .tooltip()
                 .useHtml(true)
-                .titleFormat("function() {\n" +
-                        "      var namesList = [\"Low\", \"Medium\", \"High\", \"Extreme\"];\n" +
-                        "      return '<b>' + namesList[this.heat] + '</b> Residual Risk';\n" +
-                        "    }")
-                .format("function () {\n" +
-                        "       return '<span style=\"color: #CECECE\">Likelihood: </span>' + this.x + '<br/>' +\n" +
-                        "           '<span style=\"color: #CECECE\">Consequence: </span>' + this.y;\n" +
-                        "   }");
+                .titleFormat(
+                        "function() {\n"
+                                + "      var namesList = [\"Low\", \"Medium\", \"High\", \"Extreme\"];\n"
+                                + "      return '<b>' + namesList[this.heat] + '</b> Residual Risk';\n"
+                                + "    }")
+                .format(
+                        "function () {\n"
+                                + "       return '<span style=\"color: #CECECE\">Likelihood: </span>' + this.x + '<br/>' +\n"
+                                + "           '<span style=\"color: #CECECE\">Consequence: </span>' + this.y;\n"
+                                + "   }");
 
         riskMap.data(MockData.getMockHeatMapData());
 
@@ -144,15 +146,15 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-
     private void onFABClicked() {
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ObjectDetection.class);
-                startActivityForResult(intent, INCREMENT_SCORE);
-            }
-        });
+        fab.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), ObjectDetection.class);
+                        startActivityForResult(intent, INCREMENT_SCORE);
+                    }
+                });
     }
 
     private void increaseScoreTask() {
@@ -187,7 +189,6 @@ public class HomeFragment extends Fragment {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 textScore.setText(Integer.toString(score));
-
 
                 // TODO : Initialize other views like HEATMAP, PROFILE PICTURE
             }
@@ -228,8 +229,6 @@ public class HomeFragment extends Fragment {
         }
     }
 
-
-
     public Bitmap takeScreenshot() {
         View rootView = root;
         rootView.setDrawingCacheEnabled(true);
@@ -237,7 +236,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void saveBitmap(Bitmap bitmap) {
-        imagePath = new File(Environment.getExternalStorageDirectory() + "/scrnshot.png"); ////File imagePath
+        imagePath =
+                new File(Environment.getExternalStorageDirectory() + "/scrnshot.png"); // //File imagePath
         FileOutputStream fos;
         try {
             fos = new FileOutputStream(imagePath);
@@ -255,7 +255,7 @@ public class HomeFragment extends Fragment {
         Uri uri = FileProvider.getUriForFile(getContext(), "org.fruitsalad.fileprovider", imagePath);
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("image/*");
-        String shareBody = "My highest score with Heat map "+score+" install and explore yourself";
+        String shareBody = "My highest score with Heat map " + score + " install and explore yourself";
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My Catch score");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);

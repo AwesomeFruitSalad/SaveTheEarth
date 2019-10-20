@@ -5,16 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
+import java.util.List;
 import org.fruitsalad.R;
 
-import java.util.List;
-
-public class AchievementRecyclerViewAdapter extends
-        RecyclerView.Adapter<AchievementRecyclerViewAdapter.AchievementViewHolder> {
+public class AchievementRecyclerViewAdapter
+        extends RecyclerView.Adapter<AchievementRecyclerViewAdapter.AchievementViewHolder> {
 
     private List<String> achievements;
     private Context context;
@@ -31,7 +28,8 @@ public class AchievementRecyclerViewAdapter extends
     @NonNull
     @Override
     public AchievementViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_achievements, parent, false);
+        View view =
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_achievements, parent, false);
         return new AchievementViewHolder(view);
     }
 

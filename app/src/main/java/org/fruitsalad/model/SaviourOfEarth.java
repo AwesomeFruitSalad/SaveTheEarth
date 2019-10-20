@@ -4,23 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-
 import java.util.List;
 
 @Entity
 public class SaviourOfEarth {
 
-    @PrimaryKey
-    @NonNull
-    private String name;
+    @PrimaryKey @NonNull private String name;
 
     private List<String> achievements;
 
     private int score;
 
-    public SaviourOfEarth() {
-
-    }
+    public SaviourOfEarth() {}
 
     @Ignore
     public SaviourOfEarth(@NonNull String name, List<String> achievements, int score) {
@@ -55,10 +50,14 @@ public class SaviourOfEarth {
 
     @Override
     public String toString() {
-        return "SaviourOfEarth{" +
-                "name='" + name + '\'' +
-                ", achievements=" + achievements +
-                ", score=" + score +
-                '}';
+        return "SaviourOfEarth{"
+                + "name='"
+                + name
+                + '\''
+                + ", achievements="
+                + achievements
+                + ", score="
+                + score
+                + '}';
     }
 }
