@@ -21,8 +21,8 @@
         app:spb_background_color="#09AF00"
         app:spb_is_enable="true"
         app:spb_is_step_progress="true"
-        app:spb_level="level10"
-        app:spb_stroke_with="10"
+        app:spb_level="level1"
+        app:spb_stroke_with="20"
         app:spb_text_level_color="#fff"
         app:spb_text_title_color="#040504"
         app:spb_unprogress_color="#E6E6E6" />
@@ -109,6 +109,24 @@
         app:layout_constraintVertical_bias="0.812"
         app:srcCompat="@drawable/ic_add_black_24dp" />
 
+    <com.anychart.AnyChartView
+        android:id="@+id/any_chart_view"
+        android:layout_width="420dp"
+        android:layout_height="192dp"
+        app:layout_constraintBottom_toTopOf="@+id/fab_pooja"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.565" />
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
