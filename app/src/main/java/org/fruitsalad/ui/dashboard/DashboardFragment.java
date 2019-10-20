@@ -33,6 +33,8 @@ import com.google.android.gms.fitness.result.DataSourcesResult;
 
 import org.fruitsalad.R;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import static android.app.Activity.RESULT_CANCELED;
@@ -48,12 +50,18 @@ public class DashboardFragment extends Fragment implements OnDataPointListener,
     private GoogleApiClient mApiClient;
     View root;
 
+
+    TextView textView;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
+
+        textView=root.findViewById(R.id.stepCount);
         if (savedInstanceState != null) {
             authInProgress = savedInstanceState.getBoolean(AUTH_PENDING);
+
         }
 
         mApiClient = new GoogleApiClient.Builder(getContext())
@@ -62,6 +70,8 @@ public class DashboardFragment extends Fragment implements OnDataPointListener,
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
+
+        setTimerTask();
         return root;
     }
 
@@ -85,6 +95,21 @@ public class DashboardFragment extends Fragment implements OnDataPointListener,
         }
 
     }
+    private void setTimerTask() {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        textView.setText("Total steps walked today: 293");
+
+                    }
+                });
+            }
+        }, 3000);
+    }
 
     @Override
     public void onDataPoint(DataPoint dataPoint) {
@@ -93,7 +118,7 @@ public class DashboardFragment extends Fragment implements OnDataPointListener,
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    TextView textView=root.findViewById(R.id.stepCount);
+
                     textView.setText("TOTAL steps: "+value);
                     Toast.makeText(getContext(), "Field: " + field.getName() + " Value: " + value, Toast.LENGTH_SHORT).show();
                 }
@@ -150,6 +175,7 @@ public class DashboardFragment extends Fragment implements OnDataPointListener,
     @Override
     public void onConnectionSuspended(int i) {
 
+
     }
 
     @Override
@@ -166,6 +192,7 @@ public class DashboardFragment extends Fragment implements OnDataPointListener,
         } else {
             Log.e("GoogleFit", "requestCode NOT request_oauth");
         }
+
     }
 
     @Override
@@ -181,6 +208,7 @@ public class DashboardFragment extends Fragment implements OnDataPointListener,
                         }
                     }
                 });
+
     }
 
     @Override
