@@ -1,13 +1,11 @@
 package org.fruitsalad.utility;
 
 import com.anychart.chart.common.dataentry.DataEntry;
-
-import org.fruitsalad.model.SaviourOfEarth;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
+import org.fruitsalad.model.SaviourOfEarth;
 
 public class MockData {
 
@@ -61,17 +59,19 @@ public class MockData {
     }
 
     public static LinkedHashMap<String, Integer> getAllAchievements() {
-        return new LinkedHashMap<String, Integer>() {{
-            put("Saviour of Earth", 100);
-            put("Spawn of Satan", -10);
-            put("Fat Ogre", -3);
-            put("Heavenly Saint", 80);
-            put("The Environmentalist", 200);
-            put("Born Athlete", 150);
-            put("Born Environmentalist", 450);
-            put("He who loves trees", 500);
-            put("Planting Trees like a Boss", 600);
-        }};
+        return new LinkedHashMap<String, Integer>() {
+            {
+                put("Saviour of Earth", 100);
+                put("Spawn of Satan", -10);
+                put("Fat Ogre", -3);
+                put("Heavenly Saint", 80);
+                put("The Environmentalist", 200);
+                put("Born Athlete", 150);
+                put("Born Environmentalist", 450);
+                put("He who loves trees", 500);
+                put("Planting Trees like a Boss", 600);
+            }
+        };
     }
 
     public static List<String> getRandomAchievements(LinkedHashMap<String, Integer> achievements) {
@@ -81,48 +81,36 @@ public class MockData {
         Random random = new Random();
         List<String> keys = new ArrayList<>(achievements.keySet());
 
-        for (int i=0; i<4; i++) {
-            randomAchievements.add(keys.get( random.nextInt(keys.size())));
+        for (int i = 0; i < 4; i++) {
+            randomAchievements.add(keys.get(random.nextInt(keys.size())));
         }
 
         return randomAchievements;
     }
 
     public static SaviourOfEarth getSaviourOfEarth() {
-        return new SaviourOfEarth("Abhijit",
-                getRandomAchievements(getAllAchievements()),
-                0);
+        return new SaviourOfEarth("Abhijit", getRandomAchievements(getAllAchievements()), 0);
     }
 
     public static List<SaviourOfEarth> getSavioursOfEarth() {
         List<SaviourOfEarth> savioursOfEarth = new ArrayList<>();
-        savioursOfEarth.add(new SaviourOfEarth("Abhijit",
-                getRandomAchievements(getAllAchievements()),
-                100));
-        savioursOfEarth.add(new SaviourOfEarth("Abhilash",
-                getRandomAchievements(getAllAchievements()),
-                0));
-        savioursOfEarth.add(new SaviourOfEarth("Prabhakar",
-                getRandomAchievements(getAllAchievements()),
-                4545));
-        savioursOfEarth.add(new SaviourOfEarth("Harshit",
-                getRandomAchievements(getAllAchievements()),
-                5423));
-        savioursOfEarth.add(new SaviourOfEarth("Ashwin",
-                getRandomAchievements(getAllAchievements()),
-                56095));
-        savioursOfEarth.add(new SaviourOfEarth("Drishya",
-                getRandomAchievements(getAllAchievements()),
-                5463));
-        savioursOfEarth.add(new SaviourOfEarth("Swathi",
-                getRandomAchievements(getAllAchievements()),
-                69845));
-        savioursOfEarth.add(new SaviourOfEarth("Puneeth",
-                getRandomAchievements(getAllAchievements()),
-                332));
+        savioursOfEarth.add(
+                new SaviourOfEarth("Abhijit", getRandomAchievements(getAllAchievements()), 100));
+        savioursOfEarth.add(
+                new SaviourOfEarth("Abhilash", getRandomAchievements(getAllAchievements()), 0));
+        savioursOfEarth.add(
+                new SaviourOfEarth("Prabhakar", getRandomAchievements(getAllAchievements()), 4545));
+        savioursOfEarth.add(
+                new SaviourOfEarth("Harshit", getRandomAchievements(getAllAchievements()), 5423));
+        savioursOfEarth.add(
+                new SaviourOfEarth("Ashwin", getRandomAchievements(getAllAchievements()), 56095));
+        savioursOfEarth.add(
+                new SaviourOfEarth("Drishya", getRandomAchievements(getAllAchievements()), 5463));
+        savioursOfEarth.add(
+                new SaviourOfEarth("Swathi", getRandomAchievements(getAllAchievements()), 69845));
+        savioursOfEarth.add(
+                new SaviourOfEarth("Puneeth", getRandomAchievements(getAllAchievements()), 332));
 
         return savioursOfEarth;
     }
-
 }
-

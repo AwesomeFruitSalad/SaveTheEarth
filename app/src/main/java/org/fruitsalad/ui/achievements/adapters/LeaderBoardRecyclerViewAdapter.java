@@ -5,16 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import org.fruitsalad.R;
-import org.fruitsalad.model.SaviourOfEarth;
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import org.fruitsalad.R;
+import org.fruitsalad.model.SaviourOfEarth;
 
 public class LeaderBoardRecyclerViewAdapter
         extends RecyclerView.Adapter<LeaderBoardRecyclerViewAdapter.LeaderBoardViewHolder> {
@@ -23,20 +20,22 @@ public class LeaderBoardRecyclerViewAdapter
 
     public LeaderBoardRecyclerViewAdapter(List<SaviourOfEarth> users) {
         this.users = users;
-        Collections.sort(users, new Comparator<SaviourOfEarth>() {
-            @Override
-            public int compare(SaviourOfEarth userOne, SaviourOfEarth userTwo) {
-                return userTwo.getScore() - userOne.getScore();
-            }
-        });
+        Collections.sort(
+                users,
+                new Comparator<SaviourOfEarth>() {
+                    @Override
+                    public int compare(SaviourOfEarth userOne, SaviourOfEarth userTwo) {
+                        return userTwo.getScore() - userOne.getScore();
+                    }
+                });
         Log.i("LEADERBOARD", users.toString());
     }
 
     @NonNull
     @Override
     public LeaderBoardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_leaderboard, parent, false);
+        View view =
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_leaderboard, parent, false);
 
         return new LeaderBoardViewHolder(view);
     }
@@ -60,5 +59,4 @@ public class LeaderBoardRecyclerViewAdapter
             saviourOfEarthName = itemView.findViewById(R.id.textView_item_leaderboard);
         }
     }
-
 }

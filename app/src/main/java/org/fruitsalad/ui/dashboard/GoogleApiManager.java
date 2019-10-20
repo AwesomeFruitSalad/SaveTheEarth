@@ -3,18 +3,16 @@ package org.fruitsalad.ui.dashboard;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.fitness.Fitness;
 
-
-public class GoogleApiManager implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class GoogleApiManager
+        implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleApiClient mGoogleApiClient;
     public static final String TAG = GoogleApiManager.class.getName();
@@ -25,10 +23,9 @@ public class GoogleApiManager implements GoogleApiClient.ConnectionCallbacks, Go
 
     public GoogleApiManager(Context context) {
         this.mContext = context;
-        //GoogleApiClient mGoogleApiClient = GoogleApiSingletone.getInstance()
+        // GoogleApiClient mGoogleApiClient = GoogleApiSingletone.getInstance()
         buildGoogleApi();
         connect();
-
     }
 
     public void connect() {
@@ -44,13 +41,14 @@ public class GoogleApiManager implements GoogleApiClient.ConnectionCallbacks, Go
     }
 
     private void buildGoogleApi() {
-        mGoogleApiClient = new GoogleApiClient.Builder(mContext).
-                addApi(Fitness.HISTORY_API)
-                .addApi(Fitness.RECORDING_API)
-                .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ_WRITE))
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
+        mGoogleApiClient =
+                new GoogleApiClient.Builder(mContext)
+                        .addApi(Fitness.HISTORY_API)
+                        .addApi(Fitness.RECORDING_API)
+                        .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ_WRITE))
+                        .addConnectionCallbacks(this)
+                        .addOnConnectionFailedListener(this)
+                        .build();
     }
 
     public void setConnectionListener(ConnectionListener connectionListener) {
@@ -58,7 +56,6 @@ public class GoogleApiManager implements GoogleApiClient.ConnectionCallbacks, Go
         if (this.connectionListener != null && isConnected()) {
             connectionListener.onConnected(connectionBundle);
         }
-
     }
 
     public GoogleApiClient getmGoogleApiClient() {
@@ -72,7 +69,6 @@ public class GoogleApiManager implements GoogleApiClient.ConnectionCallbacks, Go
             connectionListener.onConnected(bundle);
             Log.d(TAG, "Connected");
         }
-
     }
 
     public boolean isConnected() {
@@ -86,7 +82,6 @@ public class GoogleApiManager implements GoogleApiClient.ConnectionCallbacks, Go
             Log.d(TAG, "Suspended");
             connectionListener.onConnectionSuspended(i);
         }
-
     }
 
     @Override
