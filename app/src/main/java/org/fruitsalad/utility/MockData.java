@@ -2,8 +2,12 @@ package org.fruitsalad.utility;
 
 import com.anychart.chart.common.dataentry.DataEntry;
 
+import org.fruitsalad.model.SaviourOfEarth;
+
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Random;
 
 public class MockData {
 
@@ -54,6 +58,49 @@ public class MockData {
         data.add(new CustomHeatDataEntry("Oct", "Saturday", 3, "#43a047"));
 
         return data;
+    }
+
+    public static LinkedHashMap<String, Integer> getAllAchievements() {
+        return new LinkedHashMap<String, Integer>() {{
+            put("Saviour of Earth", 100);
+            put("Spawn of Satan", -10);
+            put("Fat Ogre", -3);
+            put("Heavenly Saint", 80);
+            put("The Environmentalist", 200);
+            put("Born Athlete", 150);
+            put("Born Environmentalist", 450);
+            put("He who loves trees", 500);
+            put("Planting Trees like a Boss", 600);
+        }};
+    }
+
+    public static List<String> getRandomAchievements(LinkedHashMap<String, Integer> achievements) {
+
+        ArrayList<String> randomAchievements = new ArrayList<>();
+
+        Random random = new Random();
+        List<String> keys = new ArrayList<>(achievements.keySet());
+
+        for (int i=0; i<4; i++) {
+            randomAchievements.add(keys.get( random.nextInt(keys.size())));
+        }
+
+        return randomAchievements;
+    }
+
+    public static List<SaviourOfEarth> getSavioursOfEarth() {
+        List<SaviourOfEarth> savioursOfEarth = new ArrayList<>();
+        savioursOfEarth.add(new SaviourOfEarth("Abhijit",
+                getRandomAchievements(getAllAchievements()),
+                0));
+        savioursOfEarth.add(new SaviourOfEarth("Abhilash",
+                getRandomAchievements(getAllAchievements()),
+                0));
+        savioursOfEarth.add(new SaviourOfEarth("Prabhakar",
+                getRandomAchievements(getAllAchievements()),
+                0));
+
+        return savioursOfEarth;
     }
 
 }
