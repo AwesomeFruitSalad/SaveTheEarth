@@ -133,8 +133,8 @@
     <ImageButton
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/fab_share"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_centerInParent="true"
         android:layout_margin="@dimen/fab_margin"
         android:layout_marginEnd="16dp"
