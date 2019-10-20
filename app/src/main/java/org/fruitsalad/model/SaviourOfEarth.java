@@ -1,5 +1,6 @@
 package org.fruitsalad.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -9,6 +10,7 @@ import java.util.List;
 public class SaviourOfEarth {
 
     @PrimaryKey
+    @NonNull
     private String name;
 
     private List<String> achievements;
@@ -17,12 +19,6 @@ public class SaviourOfEarth {
 
     public SaviourOfEarth() {
 
-    }
-
-    public SaviourOfEarth(String name, List<String> achievements, int score) {
-        this.name = name;
-        this.achievements = achievements;
-        this.score = score;
     }
 
     public String getName() {

@@ -3,10 +3,6 @@ package org.fruitsalad.ui.dashboard;
 import android.annotation.SuppressLint;
 import android.app.Application;
 
-/**
- * Created by altafshaikh on 31/10/17.
- */
-
 @SuppressLint("Registered")
 public class FitApplication extends Application {
 
