@@ -24,4 +24,4 @@ Please follow the below mentioned points to build the project -
 
 You have the app running :sunglasses:
 
-### :astonished: If that feels like too much work [click here]() to download the apk and install it to your Android phone
+### :astonished: If that feels like too much work [click here](https://drive.google.com/file/d/19IcSP1h7L01xReBvOKihTy1zpEnMiuOF/view?usp=sharing) to download the apk and install it to your Android phone
