@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "824272345878",
+    "firebase_url": "https://save-the-earth-fe86f.firebaseio.com",
+    "project_id": "save-the-earth-fe86f",
+    "storage_bucket": "save-the-earth-fe86f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824272345878:android:0659ca13b64fe2cde4ce37",
+        "android_client_info": {
+          "package_name": "org.fruitsalad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "824272345878-vpa34dngr230nnrsnhe7dnupq8m1kkgu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.fruitsalad",
+            "certificate_hash": "d49ad4300580576fe419125421373605b0a7a47c"
+          }
+        },
+        {
+          "client_id": "824272345878-9npau2ljt9bfjsko7065p57f9rtldq6q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABi8wznCoABCr8UifFOTz2-NXE2RoJ3oI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "824272345878-9npau2ljt9bfjsko7065p57f9rtldq6q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
