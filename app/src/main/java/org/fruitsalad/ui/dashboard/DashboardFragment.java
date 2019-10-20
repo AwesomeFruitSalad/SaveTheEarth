@@ -98,7 +98,7 @@ public class DashboardFragment extends Fragment implements OnDataPointListener,
     @Override
     public void onStart() {
         super.onStart();
-        mApiClient.connect();
+//        mApiClient.connect();
     }
 
     @Override
