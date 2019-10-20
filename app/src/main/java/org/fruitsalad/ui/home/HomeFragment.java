@@ -147,6 +147,8 @@ public class HomeFragment extends Fragment {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 textScore.setText(Integer.toString(score));
+                updateplantCount();
+
                 // TODO : Initialize other views like HEATMAP, PROFILE PICTURE
             }
         }.execute();
@@ -156,8 +158,6 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
-        LevelProgressBar levelProgressBar = getActivity().findViewById(R.id.p1);
-        levelProgressBar.setProgressWithAnimation(5F);
         CircularImageView circularImageView = getActivity().findViewById(R.id.circularImageView);
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.vector_abhijit_1);
         circularImageView.setImageBitmap(largeIcon);
@@ -174,6 +174,16 @@ public class HomeFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 69) {
             increaseScoreTask();
+        }
+    }
+    public void updateplantCount(){
+        LevelProgressBar levelProgressBar = getActivity().findViewById(R.id.p1);
+        levelProgressBar.setProgressWithAnimation(5F);
+        if (score<=10){
+            levelProgressBar.setProgressWithAnimation(score);
+        }
+        else {
+            levelProgressBar.setProgressWithAnimation(score);
         }
     }
 }
