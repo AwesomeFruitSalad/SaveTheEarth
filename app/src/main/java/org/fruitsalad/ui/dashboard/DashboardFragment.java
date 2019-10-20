@@ -14,6 +14,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.anychart.AnyChart;
+import com.anychart.AnyChartView;
+import com.anychart.chart.common.dataentry.DataEntry;
+import com.anychart.chart.common.dataentry.ValueDataEntry;
+import com.anychart.charts.Cartesian;
+import com.anychart.core.cartesian.series.Column;
+import com.anychart.core.cartesian.series.RangeColumn;
+import com.anychart.data.Mapping;
+import com.anychart.data.Set;
+import com.anychart.enums.Anchor;
+import com.anychart.enums.HoverMode;
+import com.anychart.enums.Position;
+import com.anychart.enums.TooltipPositionMode;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -33,6 +46,8 @@ import com.google.android.gms.fitness.result.DataSourcesResult;
 
 import org.fruitsalad.R;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -44,25 +59,22 @@ public class DashboardFragment extends Fragment implements OnDataPointListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener{
 
+    TextView textView;
     private static final int REQUEST_OAUTH = 1;
     private static final String AUTH_PENDING = "auth_state_pending";
     private boolean authInProgress = false;
     private GoogleApiClient mApiClient;
     View root;
 
-
-    TextView textView;
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
-
-        textView=root.findViewById(R.id.stepCount);
         if (savedInstanceState != null) {
             authInProgress = savedInstanceState.getBoolean(AUTH_PENDING);
-
         }
+
+        textView =root.findViewById(R.id.stepCount);
 
         mApiClient = new GoogleApiClient.Builder(getContext())
                 .addApi(Fitness.SENSORS_API)
@@ -74,6 +86,14 @@ public class DashboardFragment extends Fragment implements OnDataPointListener,
         setTimerTask();
         return root;
     }
+
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        bargraph();
+    }
+
+
 
     @Override
     public void onStart() {
@@ -95,21 +115,6 @@ public class DashboardFragment extends Fragment implements OnDataPointListener,
         }
 
     }
-    private void setTimerTask() {
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        textView.setText("Total steps walked today: 293");
-
-                    }
-                });
-            }
-        }, 3000);
-    }
 
     @Override
     public void onDataPoint(DataPoint dataPoint) {
@@ -118,7 +123,6 @@ public class DashboardFragment extends Fragment implements OnDataPointListener,
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-
                     textView.setText("TOTAL steps: "+value);
                     Toast.makeText(getContext(), "Field: " + field.getName() + " Value: " + value, Toast.LENGTH_SHORT).show();
                 }
@@ -170,11 +174,79 @@ public class DashboardFragment extends Fragment implements OnDataPointListener,
     }
 
 
+    private void setTimerTask() {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        textView.setText("52802");
+                    }
+                });
+            }
+        }, 600);
+    }
+
+
+
+    private void bargraph() {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        AnyChartView anyChartView = getActivity().findViewById(R.id.any_chart_view_dashboard);
+                        anyChartView.setProgressBar(getActivity().findViewById(R.id.progress_bar_dashboard));
+
+                        Cartesian cartesian = AnyChart.column();
+
+                        List<DataEntry> data = new ArrayList<>();
+                        data.add(new ValueDataEntry("Monday", 8540));
+                        data.add(new ValueDataEntry("Tuesday", 9490));
+                        data.add(new ValueDataEntry("Wednsday", 5000));
+                        data.add(new ValueDataEntry("Thursday", 1200));
+                        data.add(new ValueDataEntry("Friday", 6068));
+                        data.add(new ValueDataEntry("Saturday", 13254));
+                        data.add(new ValueDataEntry("Sunday", 9246));
+
+                        Column column = cartesian.column(data);
+
+                        column.tooltip()
+                                .titleFormat("{%X}")
+                                .position(Position.CENTER_BOTTOM)
+                                .anchor(Anchor.CENTER_BOTTOM)
+                                .offsetX(0d)
+                                .offsetY(5d)
+                                .format("{%Value}{groupsSeparator: } Steps");
+
+                        cartesian.animation(true);
+                        cartesian.title("Steps Trend of this week");
+
+                        cartesian.yScale().minimum(0d);
+
+                        cartesian.yAxis(0).labels().format("{%Value}{groupsSeparator: } Steps");
+
+                        cartesian.tooltip().positionMode(TooltipPositionMode.POINT);
+                        cartesian.interactivity().hoverMode(HoverMode.BY_X);
+
+                        cartesian.xAxis(0).title("Day of the Week");
+                        cartesian.yAxis(0).title("Steps");
+
+                        anyChartView.setChart(cartesian);
+                    }
+                });
+            }
+        }, 3000);
+    }
 
 
     @Override
     public void onConnectionSuspended(int i) {
-
 
     }
 
@@ -192,7 +264,6 @@ public class DashboardFragment extends Fragment implements OnDataPointListener,
         } else {
             Log.e("GoogleFit", "requestCode NOT request_oauth");
         }
-
     }
 
     @Override
@@ -208,7 +279,6 @@ public class DashboardFragment extends Fragment implements OnDataPointListener,
                         }
                     }
                 });
-
     }
 
     @Override
