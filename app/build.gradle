@@ -56,4 +56,5 @@ dependencies {
     annotationProcessor 'androidx.room:room-compiler:2.2.0'
 
     implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'
+    implementation 'com.google.android.gms:play-services-maps:11.4.0'
 }

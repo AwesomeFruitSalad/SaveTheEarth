@@ -14,6 +14,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.anychart.AnyChart;
+import com.anychart.AnyChartView;
+import com.anychart.chart.common.dataentry.DataEntry;
+import com.anychart.chart.common.dataentry.ValueDataEntry;
+import com.anychart.charts.Cartesian;
+import com.anychart.core.cartesian.series.Column;
+import com.anychart.core.cartesian.series.RangeColumn;
+import com.anychart.data.Mapping;
+import com.anychart.data.Set;
+import com.anychart.enums.Anchor;
+import com.anychart.enums.HoverMode;
+import com.anychart.enums.Position;
+import com.anychart.enums.TooltipPositionMode;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -33,6 +46,8 @@ import com.google.android.gms.fitness.result.DataSourcesResult;
 
 import org.fruitsalad.R;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static android.app.Activity.RESULT_CANCELED;
@@ -64,6 +79,50 @@ public class DashboardFragment extends Fragment implements OnDataPointListener,
                 .build();
         return root;
     }
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        AnyChartView anyChartView = getActivity().findViewById(R.id.any_chart_view_dashboard);
+        anyChartView.setProgressBar(getActivity().findViewById(R.id.progress_bar_dashboard));
+
+        Cartesian cartesian = AnyChart.column();
+
+        List<DataEntry> data = new ArrayList<>();
+        data.add(new ValueDataEntry("Monday", 80540));
+        data.add(new ValueDataEntry("Tuesday", 94190));
+        data.add(new ValueDataEntry("Wednsday", 102610));
+        data.add(new ValueDataEntry("Thursday", 110430));
+        data.add(new ValueDataEntry("Friday", 128000));
+        data.add(new ValueDataEntry("Saturday", 143760));
+        data.add(new ValueDataEntry("Sunday", 170670));
+
+        Column column = cartesian.column(data);
+
+        column.tooltip()
+                .titleFormat("{%X}")
+                .position(Position.CENTER_BOTTOM)
+                .anchor(Anchor.CENTER_BOTTOM)
+                .offsetX(0d)
+                .offsetY(5d)
+                .format("{%Value}{groupsSeparator: } Steps");
+
+        cartesian.animation(true);
+        cartesian.title("Steps Trend of this week");
+
+        cartesian.yScale().minimum(0d);
+
+        cartesian.yAxis(0).labels().format("{%Value}{groupsSeparator: } Steps");
+
+        cartesian.tooltip().positionMode(TooltipPositionMode.POINT);
+        cartesian.interactivity().hoverMode(HoverMode.BY_X);
+
+        cartesian.xAxis(0).title("Day of the Week");
+        cartesian.yAxis(0).title("Steps");
+
+        anyChartView.setChart(cartesian);
+    }
+
+
+
 
     @Override
     public void onStart() {
