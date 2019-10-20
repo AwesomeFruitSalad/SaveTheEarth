@@ -48,6 +48,8 @@ import org.fruitsalad.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import static android.app.Activity.RESULT_CANCELED;
@@ -57,6 +59,7 @@ public class DashboardFragment extends Fragment implements OnDataPointListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener{
 
+    TextView textView;
     private static final int REQUEST_OAUTH = 1;
     private static final String AUTH_PENDING = "auth_state_pending";
     private boolean authInProgress = false;
@@ -71,56 +74,24 @@ public class DashboardFragment extends Fragment implements OnDataPointListener,
             authInProgress = savedInstanceState.getBoolean(AUTH_PENDING);
         }
 
+        textView =root.findViewById(R.id.stepCount);
+
         mApiClient = new GoogleApiClient.Builder(getContext())
                 .addApi(Fitness.SENSORS_API)
                 .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ_WRITE))
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
+
+        setTimerTask();
         return root;
     }
+
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        AnyChartView anyChartView = getActivity().findViewById(R.id.any_chart_view_dashboard);
-        anyChartView.setProgressBar(getActivity().findViewById(R.id.progress_bar_dashboard));
-
-        Cartesian cartesian = AnyChart.column();
-
-        List<DataEntry> data = new ArrayList<>();
-        data.add(new ValueDataEntry("Monday", 80540));
-        data.add(new ValueDataEntry("Tuesday", 94190));
-        data.add(new ValueDataEntry("Wednsday", 102610));
-        data.add(new ValueDataEntry("Thursday", 110430));
-        data.add(new ValueDataEntry("Friday", 128000));
-        data.add(new ValueDataEntry("Saturday", 143760));
-        data.add(new ValueDataEntry("Sunday", 170670));
-
-        Column column = cartesian.column(data);
-
-        column.tooltip()
-                .titleFormat("{%X}")
-                .position(Position.CENTER_BOTTOM)
-                .anchor(Anchor.CENTER_BOTTOM)
-                .offsetX(0d)
-                .offsetY(5d)
-                .format("{%Value}{groupsSeparator: } Steps");
-
-        cartesian.animation(true);
-        cartesian.title("Steps Trend of this week");
-
-        cartesian.yScale().minimum(0d);
-
-        cartesian.yAxis(0).labels().format("{%Value}{groupsSeparator: } Steps");
-
-        cartesian.tooltip().positionMode(TooltipPositionMode.POINT);
-        cartesian.interactivity().hoverMode(HoverMode.BY_X);
-
-        cartesian.xAxis(0).title("Day of the Week");
-        cartesian.yAxis(0).title("Steps");
-
-        anyChartView.setChart(cartesian);
+        bargraph();
     }
-
 
 
 
@@ -152,7 +123,6 @@ public class DashboardFragment extends Fragment implements OnDataPointListener,
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    TextView textView=root.findViewById(R.id.stepCount);
                     textView.setText("TOTAL steps: "+value);
                     Toast.makeText(getContext(), "Field: " + field.getName() + " Value: " + value, Toast.LENGTH_SHORT).show();
                 }
@@ -204,6 +174,75 @@ public class DashboardFragment extends Fragment implements OnDataPointListener,
     }
 
 
+    private void setTimerTask() {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        textView.setText("52802");
+                    }
+                });
+            }
+        }, 600);
+    }
+
+
+
+    private void bargraph() {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        AnyChartView anyChartView = getActivity().findViewById(R.id.any_chart_view_dashboard);
+                        anyChartView.setProgressBar(getActivity().findViewById(R.id.progress_bar_dashboard));
+
+                        Cartesian cartesian = AnyChart.column();
+
+                        List<DataEntry> data = new ArrayList<>();
+                        data.add(new ValueDataEntry("Monday", 8540));
+                        data.add(new ValueDataEntry("Tuesday", 9490));
+                        data.add(new ValueDataEntry("Wednsday", 5000));
+                        data.add(new ValueDataEntry("Thursday", 1200));
+                        data.add(new ValueDataEntry("Friday", 6068));
+                        data.add(new ValueDataEntry("Saturday", 13254));
+                        data.add(new ValueDataEntry("Sunday", 9246));
+
+                        Column column = cartesian.column(data);
+
+                        column.tooltip()
+                                .titleFormat("{%X}")
+                                .position(Position.CENTER_BOTTOM)
+                                .anchor(Anchor.CENTER_BOTTOM)
+                                .offsetX(0d)
+                                .offsetY(5d)
+                                .format("{%Value}{groupsSeparator: } Steps");
+
+                        cartesian.animation(true);
+                        cartesian.title("Steps Trend of this week");
+
+                        cartesian.yScale().minimum(0d);
+
+                        cartesian.yAxis(0).labels().format("{%Value}{groupsSeparator: } Steps");
+
+                        cartesian.tooltip().positionMode(TooltipPositionMode.POINT);
+                        cartesian.interactivity().hoverMode(HoverMode.BY_X);
+
+                        cartesian.xAxis(0).title("Day of the Week");
+                        cartesian.yAxis(0).title("Steps");
+
+                        anyChartView.setChart(cartesian);
+                    }
+                });
+            }
+        }, 3000);
+    }
 
 
     @Override
