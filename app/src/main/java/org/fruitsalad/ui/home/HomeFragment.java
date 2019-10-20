@@ -27,19 +27,21 @@ public class HomeFragment extends Fragment {
 
         return root;
     }
+
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         LevelProgressBar levelProgressBar = getActivity().findViewById(R.id.p1);
         levelProgressBar.setProgressWithAnimation(5F);
-        CircularImageView circularImageView  = getActivity().findViewById(R.id.circularImageView);
+        CircularImageView circularImageView = getActivity().findViewById(R.id.circularImageView);
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.vector_abhijit_1);
         circularImageView.setImageBitmap(largeIcon);
     }
+
     @Override
     public void onStop() {
         super.onStop();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
     }
 }
