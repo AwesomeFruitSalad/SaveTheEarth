@@ -101,7 +101,7 @@ public class MockData {
                 100));
         savioursOfEarth.add(new SaviourOfEarth("Abhilash",
                 getRandomAchievements(getAllAchievements()),
-                32));
+                0));
         savioursOfEarth.add(new SaviourOfEarth("Prabhakar",
                 getRandomAchievements(getAllAchievements()),
                 4545));
