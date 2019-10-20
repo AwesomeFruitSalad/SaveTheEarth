@@ -27,6 +27,8 @@ import org.fruitsalad.R;
 import org.fruitsalad.roomdb.UserDatabase;
 import org.fruitsalad.utility.MockData;
 
+import java.sql.ResultSet;
+
 import ir.alirezaiyan.progressbar.LevelProgressBar;
 
 public class HomeFragment extends Fragment {
@@ -35,7 +37,7 @@ public class HomeFragment extends Fragment {
     private TextView textScore;
     private int score;
     private UserDatabase userDatabase;
-
+    private final int INCREMENT_SCORE = 70;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -110,8 +112,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(),ObjectDetection.class);
-                startActivity(intent);
-               // increaseScoreTask();
+                startActivityForResult(intent, INCREMENT_SCORE);
             }
         });
     }
@@ -168,5 +169,13 @@ public class HomeFragment extends Fragment {
     public void onStop() {
         super.onStop();
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 69) {
+            increaseScoreTask();
+        }
     }
 }
