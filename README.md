@@ -1,5 +1,9 @@
 # :seedling: SaveTheEarth :seedling:
 
+## :e-mail: Communication channels: 
+
+[Telegram](https://t.me/SaveTheEarthDeveloperChat)
+
 We are saving the Earth. Yay!
 
 ## :satellite: Technology Stack  
